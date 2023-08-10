@@ -10,6 +10,9 @@ export default function Textbox(props){
         //update the entry using setText()
         setText(text.toUpperCase());
     }
+    let textCount = ()=>{
+        return text.split("").length;
+    }
     return(
         //paste the bootstrap 'form' component
         <>
@@ -24,7 +27,8 @@ export default function Textbox(props){
                 <button className="btn btn-primary" onClick={onClickFunc}>Click me</button>
             </div>
             {/*count the length of words & characters from <textarea>*/}  
-            <p>Number of Character(s):{text.split("").length} </p> 
+            <p>Number of characters: {text.split("").length}</p>
+            <p>Number of words: {text.split(" ").length}</p>
              
         </>
 
