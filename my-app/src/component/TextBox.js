@@ -12,7 +12,7 @@ export default function Textbox(props){
     }
     return(
         //paste the bootstrap 'form' component
-        <div>
+        <>
 
             <div className="mb-3">
                 <h2>{props.title}</h2>
@@ -22,8 +22,11 @@ export default function Textbox(props){
             </div>
             <div>
                 <button className="btn btn-primary" onClick={onClickFunc}>Click me</button>
-            </div>    
-        </div>
+            </div>
+            {/*count the length of words & characters from <textarea>*/}  
+            <p>Number of Character(s):{text.split("").length} </p> 
+             
+        </>
 
             
     )
