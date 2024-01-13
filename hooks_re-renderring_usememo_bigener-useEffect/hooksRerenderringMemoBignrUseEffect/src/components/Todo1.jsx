@@ -1,5 +1,7 @@
 import React, {useState} from 'react'
 
+let globalId = 4;
+
 export default function Todo1(){
     //state array with 3 todos
     const [todos, setTodos] = useState([{
@@ -18,7 +20,7 @@ export default function Todo1(){
 
     function addTodo(){
         setTodos([...todos, {
-            id:4, 
+            id: globalId++, 
             title: Math.floor(Math.random() * 10), 
             description: Math.floor(Math.random() * 10)}])
     }
