@@ -6,9 +6,16 @@ export default function Wrapper(){
             <CardWrapper>
                 Hello World!!
             </CardWrapper>
-            <CardWrapper>
 
+            <CardWrapper>
                 <TextComponent />
+            </CardWrapper>
+
+            <CardWrapper>
+                <h5>This is h5 tag</h5>
+                <CardWrapper>
+                    <TextComponent />
+                </CardWrapper>
             </CardWrapper>
         </div>
     )
@@ -17,7 +24,7 @@ export default function Wrapper(){
 function TextComponent(){
     return(
         <div>
-             hi there
+             This is TextComponent
         </div>
     )
 }
