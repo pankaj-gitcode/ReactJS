@@ -3,9 +3,13 @@ import React, {useState} from 'react'
 export default function Wrapper(){
     return(
         <div>
-            <CardWrapper innerComponent={<TextComponent />}/>
-            <CardWrapper innerComponent={<TextComponent />}/>
-            <CardWrapper innerComponent={<TextComponent />}/>
+            <CardWrapper>
+                Hello World!!
+            </CardWrapper>
+            <CardWrapper>
+
+                <TextComponent />
+            </CardWrapper>
         </div>
     )
 }
@@ -18,10 +22,10 @@ function TextComponent(){
     )
 }
 
-function CardWrapper({innerComponent}){
+function CardWrapper({children}){
     return(
         <div style={{border:'2px solid royalblue', borderRadius:'100px'}}>
-            {innerComponent}
+            {children}
         </div>
     )
 }
