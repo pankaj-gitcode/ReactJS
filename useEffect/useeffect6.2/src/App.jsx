@@ -1,34 +1,31 @@
-
-// import axios from 'axios'
+import React, {useEffect, useState} from 'react'
 import './App.css'
 
 export default function App(){
-  const [todos, setTodos] = useState([]);
-
-  useEffect(()=>{
-    fetch("https://sum-server.100xdevs.com/todos")
-    .then(async (res)=>{
-      const response = await res.json();
-      setTodos(response.todos);
-    })
-  },[])
-
 
   return(
     <div>
-      {
-        todos.map((todo)=> <Todo key={todo.id} title={todo.title} description={todo.description}/> )
-      }
+      <Todo id={2}/>
     </div>
   )
 }
 
 //Todo component
-const Todo = ({title, description})=>{
+function Todo({id}){
+  const [todo, setTodo] = useState([]);
+
+  useEffect(()=>{
+    fetch(`https://sum-server.100xdevs.com/todo?id=${id}`)
+    .then(async(res)=>{
+      const response = await res.json();
+      setTodo(response.todo)
+    })
+  }, [])
+
   return(
     <div>
-      <h1>{title}</h1>
-      <h5>{description}</h5>
+      <h1>{todo.title}</h1>
+      <h5>{todo.description}</h5>
     </div>
   )
 }
