@@ -6,7 +6,7 @@
 // One restriction - everything needs to be inside App
 // ************************************************************************************
 
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useMemo} from 'react'
 import './App.css'
 
 export default function App(){
@@ -15,12 +15,25 @@ export default function App(){
   const [countValue, setCountValue] = useState(0);
 
   //useEffect whenever inputValue will change, perform sum operation
-  useEffect(()=>{ 
+  useEffect(()=>{
+    let sum = 0
     for (let i=1; i<=inputValue; i++){
-      const sum = countValue + i;
-      setCountValue(sum);
+      sum = sum +  i ;
     }
+    setCountValue(sum)
+    console.log("count value is: "+ countValue)
   },[inputValue])
+
+  //memoisation
+  const count = useMemo(()=>{
+    let sum = 0;
+    for (let i=1; i<=inputValue; i++){
+      sum += i;
+    }
+    console.log("sum is: "+ sum)
+    return sum
+    
+  }, [inputValue])
 
   //counter function
   const counterFunc = ()=>{
@@ -31,6 +44,7 @@ export default function App(){
       <input type="text" placeholder="Enter a number"
         onChange={(e)=>setInputValue(e.target.value)}
       />
+      <h5>sum {count}</h5>
       <h5>sum {countValue}</h5>
 
       <button onClick={counterFunc}>counter {counter}</button>
