@@ -9,8 +9,16 @@ export default function App(){
     .then(async (res)=>{
       const response = await res.json();
       setTodoList(response.todos);
+      console.log("Render-1")
     })
+    .catch((err)=>console.error(`ERROR: ${err}`))
   }, [])
+
+   useEffect(()=>{
+     setTimeout(()=>{
+       console.log("Render-2")
+     });
+   }, [])
 
   return(
     <div>
