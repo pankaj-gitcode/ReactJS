@@ -6,7 +6,7 @@ import './App.css'
 export default function App(){
   // 2 exchange data & 1 bank data
   const [exchange1Data, setExchange1Data] = useState({});
-  const [exchnage2Data, setExchange2Data] = useState({});
+  const [exchange2Data, setExchange2Data] = useState({});
   const [bankData, setBankData] = useState({});
 
   //useEffect for all individuals
@@ -26,33 +26,23 @@ export default function App(){
       console.log('timeout')
     }, 5000)
   }, [])
-  console.log("Render-1");
-  const totalExchangeData = exchange1Data.return + exchnage2Data.return;
-  const tax = (totalExchangeData + bankData.return) * 0.3
+
+//useMemo for complex calculation
+  const exchangeData = useMemo(()=>{
+    console.log("usememo")
+    const totalExchange = exchange1Data.return + exchange2Data.return;
+    return totalExchange;
+  }, [exchange1Data, exchange2Data])
+
+  // const exchangeData = exchange1Data.return + exchange2Data.return;
+  const tax = (exchangeData + bankData.return) * 0.3
   console.log("Render-2");
 
   return(
     <div>
-      <h4>Total tax is: {[tax , totalExchangeData]}</h4>
+      <h4>Total tax is: {[tax]}</h4>
       <h6> {console.log("hi") }</h6>
     </div>
   )
 }
 
-
-
-//  OUTPUT:👇
-//       Render-1
-//       Render-2
-//       hi
-
-//       ue-1
-//       ue-2
-//       Render-1
-//       Render-2
-//       hi
-
-//       timeout
-//       Render-1
-//       Render-2
-//       hi
