@@ -1,48 +1,42 @@
-//useEffect cons: let's say 2 exchange investment i've exchange1Data & exchange2Data and one bankData
-
 import React, {useState, useEffect, useMemo} from 'react'
 import './App.css'
 
 export default function App(){
-  // 2 exchange data & 1 bank data
   const [exchange1Data, setExchange1Data] = useState({});
   const [exchange2Data, setExchange2Data] = useState({});
   const [bankData, setBankData] = useState({});
 
-  //useEffect for all individuals
   useEffect(()=>{
-    setExchange1Data({return: 100});
-    console.log('ue-1')
-  },[])
+    setExchange1Data({return:100});
+    console.log('UE-1')
+  }, [])
 
   useEffect(()=>{
     setExchange2Data({return: 100});
-    console.log('ue-2')
+    console.log("UE-2")
   }, [])
 
   useEffect(()=>{
     setTimeout(()=>{
-      setBankData({return:100})
-      console.log('timeout')
-    }, 5000)
+      setBankData({return:100});
+      console.log("UE-3 | Timeout")
+    }, 5000);
   }, [])
 
-//useMemo for complex calculation
+  //useMemo
   const exchangeData = useMemo(()=>{
-    console.log("usememo")
-    const totalExchange = exchange1Data.return + exchange2Data.return;
-    return totalExchange;
-  }, [exchange1Data, exchange2Data])
+    console.log("useMemo...")
+    const totalExchangeData = exchange1Data.return + exchange2Data.return;
+    return totalExchangeData;
+  }, [exchange1Data, exchange2Data]);
 
-  // const exchangeData = exchange1Data.return + exchange2Data.return;
-  const tax = (exchangeData + bankData.return) * 0.3
-  console.log("Render-2");
+  const tax = exchangeData + bankData.return * 0.3 ; 
+  console.log("Expensive Calculation");
 
   return(
     <div>
-      <h4>Total tax is: {[tax]}</h4>
-      <h6> {console.log("hi") }</h6>
+      <h1>Total Tax: {tax}</h1>
+      {console.log("CS")}
     </div>
   )
 }
-
