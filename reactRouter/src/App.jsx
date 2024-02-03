@@ -7,8 +7,8 @@ import { Dashboard } from './components/Dashboard'
 
 export default function App(){
 
-  const landingFunc = ()=>{ window.location.href='/' }
-  const dashboardFunc = ()=>{ window.location.href='/dashboard' }
+  const landingFunc = ()=>{ window.location.href='/' } //one way but not the perfect way
+  const dashboardFunc = ()=>{ window.location.href='/dashboard' } //window.location... uses hard reloading
 
   return(
     <div>
