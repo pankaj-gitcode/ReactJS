@@ -6,15 +6,20 @@ export default function App(){
 
   return(
     <div>
-      <Count count={count}/>
-      <Button count={count} setCount={setCount}/>
+      {/* setCount taken here for button used inside Count() function */}
+      <Count count={count} setCount={setCount}/> 
+      
     </div>
   )
 }
 //COunt compo. will render only the 'count'
-const Count=({count})=>{
+const Count=({count, setCount})=>{
   return(
-    <div>{count}</div>
+    <div>
+      {count}
+      {/* basically we are doing 'prop-drilling' here */}
+      <Button count={count} setCount={setCount}/> 
+    </div>
   )
 }
 const Button=({count, setCount})=>{
