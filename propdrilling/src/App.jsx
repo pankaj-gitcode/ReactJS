@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { CountProvider, useCount } from './component/Context'
+import Display from './component/Display';
 
 export default function App(){
   const [count, setCount] = useState(0);
@@ -7,6 +8,7 @@ export default function App(){
   return(
     <CountProvider value={{count, setCount}}>
       <Count />
+      <Display />
     </CountProvider>
   )
 }
