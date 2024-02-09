@@ -1,32 +1,42 @@
 import React, {useState} from 'react'
-import './App.css'
+import { CountProvider, useCount } from './component/Context'
 
 export default function App(){
   const [count, setCount] = useState(0);
 
   return(
-    <div>
-      {/* setCount taken here for button used inside Count() function */}
-      <Count count={count} setCount={setCount}/> 
-      
-    </div>
+    <CountProvider value={{count, setCount}}>
+      <Count />
+    </CountProvider>
   )
 }
-//COunt compo. will render only the 'count'
-const Count=({count, setCount})=>{
-  return(
-    <div>
-      {count}
-      {/* basically we are doing 'prop-drilling' here */}
-      <Button count={count} setCount={setCount}/> 
-    </div>
-  )
+
+//Count Component
+const Count = ()=>{
+  const {count} = useCount()
+  return(<div>
+    <p>Current Count is: {count}</p>
+    <CountRender />
+    <Button />
+
+  </div>)
 }
-const Button=({count, setCount})=>{
+
+//CountRender component
+const CountRender = ()=>{
+  const {count} = useCount();
+  return(<div>
+    <b>{count}</b>
+  </div>)
+}
+
+//Button Component
+const Button = ()=>{
+  const {count, setCount} = useCount();
   return(
     <div>
-      <button onClick={()=>{setCount(count+1)}}>Increase</button>
-      <button onClick={()=>{setCount(count-1)}}>Decrease</button>
+      <button onClick={()=>{setCount(count=>count+1)}}>Increase</button>
+      <button onClick={()=>{setCount(count=>count-1)}}>Decrease</button>
     </div>
   )
 }
