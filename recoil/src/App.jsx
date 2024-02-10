@@ -1,6 +1,6 @@
 import React, {useState, useMemo} from 'react'
 import {useRecoilValue, useRecoilState, RecoilRoot, useSetRecoilState} from 'recoil'
-import { countAtom } from './store/atoms/Count';
+import { EvenSelector, countAtom } from './store/atoms/Count';
 
 export default function App(){
   // const [count, setCount] = useState(0);
@@ -52,15 +52,16 @@ const Buttons = ()=>{
 
 //component-4: even/odd component w.r.t count value
 const CountEvenOdd = ()=>{
-  const count = useRecoilValue(countAtom);
-  const checkEvenOdd = useMemo(()=>{
-    return count%2==0? "It's EVEN" : null
-}, [count])
+  const isEven = useRecoilValue(EvenSelector);
+  
 console.log("EVEn OR ODD")
   return(
     <div>
-      {/* <button onClick={checkEvenOdd}>Check Even or Odd</button> */}
-      <p>{checkEvenOdd}</p>
+      
+      {
+          isEven? "not Even" : null
+      }
+      {isEven}
     </div>
   )
 }
