@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useMemo} from 'react'
 import {useRecoilValue, useRecoilState, RecoilRoot, useSetRecoilState} from 'recoil'
 import { countAtom } from './store/atoms/Count';
 
@@ -22,6 +22,7 @@ const Count = ()=>{
       <div>
         <CountRender />
         <Buttons />
+        <CountEvenOdd />
       </div>
     )
 }
@@ -45,6 +46,21 @@ const Buttons = ()=>{
     <div>
       <button onClick={()=>{setCount(count=>count+1)}}>Increase Count</button>
       <button onClick={()=>{setCount(count=>count-1)}}>Decrease Count</button>
+    </div>
+  )
+}
+
+//component-4: even/odd component w.r.t count value
+const CountEvenOdd = ()=>{
+  const count = useRecoilValue(countAtom);
+  const checkEvenOdd = useMemo(()=>{
+    return count%2==0? "It's EVEN" : null
+}, [count])
+console.log("EVEn OR ODD")
+  return(
+    <div>
+      {/* <button onClick={checkEvenOdd}>Check Even or Odd</button> */}
+      <p>{checkEvenOdd}</p>
     </div>
   )
 }
