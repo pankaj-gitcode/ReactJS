@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {useRecoilValue, useRecoilState, RecoilRoot} from 'recoil'
+import {useRecoilValue, useRecoilState, RecoilRoot, useSetRecoilState} from 'recoil'
 import { countAtom } from './store/atoms/Count';
 
 export default function App(){
@@ -17,7 +17,7 @@ export default function App(){
 
 //compoent-1: Count
 const Count = ()=>{
-
+    console.log("COUNTER")
     return(
       <div>
         <CountRender />
@@ -29,6 +29,7 @@ const Count = ()=>{
 //compoent-2: CountRender
 const CountRender = ()=>{
   const count = useRecoilValue(countAtom);
+  console.log("RenderCount")
   return(
     <div>
       <b>Current Count is: {count}</b>
@@ -38,7 +39,8 @@ const CountRender = ()=>{
 
 //compoent-3: Buttons
 const Buttons = ()=>{
-  const [count, setCount] = useRecoilState(countAtom);
+  console.log("BUTTONS")
+  const setCount = useSetRecoilState(countAtom);
   return(
     <div>
       <button onClick={()=>{setCount(count=>count+1)}}>Increase Count</button>
