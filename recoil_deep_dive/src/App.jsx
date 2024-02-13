@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import {RecoilRoot, useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil'
-import { jobsAtom, messagingAtom, networkAtom, notificationsAtom } from './atoms'
+import { jobsAtom, messagingAtom, networkAtom, notificationsAtom, servicesSelector } from './atoms'
 
 export default function App(){
   return(
@@ -19,10 +19,12 @@ const MainApp = ()=>{
   const setMsgCount = useSetRecoilState(messagingAtom);
   const notificationsCount = useRecoilValue(notificationsAtom);
 
-  const totalServices = useMemo(()=>{
+  const AllServices = useMemo(()=>{
     const res = networkCount + jobsCount + msgCount + notificationsCount;
     return res;
   }, [networkCount, jobsCount, msgCount, notificationsCount]);
+
+  const totalServices = useRecoilValue(servicesSelector)
 
   return(
     <div>
