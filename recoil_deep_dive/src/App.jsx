@@ -1,6 +1,5 @@
-import React from 'react'
-import './App.css'
-import { RecoilRoot, useRecoilState, useRecoilValue } from 'recoil'
+import React, { useMemo } from 'react'
+import {RecoilRoot, useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil'
 import { jobsAtom, messagingAtom, networkAtom, notificationsAtom } from './atoms'
 
 export default function App(){
@@ -16,18 +15,26 @@ export default function App(){
 const MainApp = ()=>{
   const networkCount = useRecoilValue(networkAtom);
   const jobsCount = useRecoilValue(jobsAtom);
-  const messagingCount = useRecoilValue(messagingAtom);
-  const [messaging, setMessagingCount] = useRecoilState(messagingAtom);
+  const msgCount = useRecoilValue(messagingAtom);
+  const setMsgCount = useSetRecoilState(messagingAtom);
   const notificationsCount = useRecoilValue(notificationsAtom);
+
+  const totalServices = useMemo(()=>{
+    const res = networkCount + jobsCount + msgCount + notificationsCount;
+    return res;
+  }, [networkCount, jobsCount, msgCount, notificationsCount]);
 
   return(
     <div>
       <button>Home</button>
-      <button>My Network ({networkCount>=100?"99+":networkCount})</button>
+      <button>My Network ({networkCount>=100? "99+":networkCount})</button>
       <button>Jobs ({jobsCount})</button>
-      <button>Messaging ({messagingCount})</button>
+      <button>Messaging ({msgCount})</button>
       <button>Notifications ({notificationsCount})</button>
-      <button onClick={()=>{setMessagingCount(messagingCount=>messagingCount+1)}}>Me</button>
+      <button onClick={()=>{setMsgCount(msgCount=>msgCount+1)}}>Me</button>
+      {console.log(`${msgCount}`)}
+
+      <button>Total ({totalServices})</button>
     </div>
   )
 }
