@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react'
 import {RecoilRoot, useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil'
 import { jobsAtom, messagingAtom, networkAtom, notificationsAtom, servicesSelector } from './atoms'
+import DataApi from './component/DataApi'
 
 export default function App(){
   return(
     <div>
       <RecoilRoot>
+      <DataApi />
         <MainApp />
       </RecoilRoot>
     </div>
@@ -23,7 +25,7 @@ const MainApp = ()=>{
     const res = networkCount + jobsCount + msgCount + notificationsCount;
     return res;
   }, [networkCount, jobsCount, msgCount, notificationsCount]);
-
+  //instead of "useMemo👆🏽" we can use "selector👇"
   const totalServices = useRecoilValue(servicesSelector)
 
   return(
@@ -40,3 +42,6 @@ const MainApp = ()=>{
     </div>
   )
 }
+
+
+

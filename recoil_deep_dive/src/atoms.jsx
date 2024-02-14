@@ -20,6 +20,11 @@ export const notificationsAtom = atom({
     default: 104 
 });
 
+export const dataAtom = atom({
+    key: 'dataAtom',
+    default: []
+})
+
 export const servicesSelector = selector({
     key: 'totalServices',
     get: ({get})=>{
