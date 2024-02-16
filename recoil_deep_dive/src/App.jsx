@@ -1,46 +1,66 @@
-import React, { useMemo } from 'react'
-import {RecoilRoot, useRecoilValue, useResetRecoilState, useSetRecoilState} from 'recoil'
-import { jobsAtom, messagingAtom, networkAtom, notificationsAtom, servicesSelector } from './atoms'
-import DataApi from './component/DataApi'
+//Home My Network (99+)Jobs (100)Messaging (112)Notifications (104)MeTotal (417)
+
+import React, { useEffect } from 'react'
+import { RecoilRoot, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { dataAtom, jobsAtom, messagingAtom, networkAtom, notificationsAtom, totalServiceSelector } from './atoms'
+import axios from 'axios'
 
 export default function App(){
+  console.log("APP")
   return(
     <div>
       <RecoilRoot>
-      <DataApi />
         <MainApp />
-      </RecoilRoot>
-    </div>
+      </RecoilRoot>     
+   </div>
   )
 }
 
 const MainApp = ()=>{
-  const networkCount = useRecoilValue(networkAtom);
+  const networkCount = useRecoilValue(networkAtom); 
   const jobsCount = useRecoilValue(jobsAtom);
   const msgCount = useRecoilValue(messagingAtom);
   const setMsgCount = useSetRecoilState(messagingAtom);
   const notificationsCount = useRecoilValue(notificationsAtom);
 
-  const AllServices = useMemo(()=>{
-    const res = networkCount + jobsCount + msgCount + notificationsCount;
-    return res;
-  }, [networkCount, jobsCount, msgCount, notificationsCount]);
-  //instead of "useMemo👆🏽" we can use "selector👇"
-  const totalServices = useRecoilValue(servicesSelector)
+  const totalServicesCount = useRecoilValue(totalServiceSelector); 
 
-  return(
+  const [dataCount, setDataCount] = useRecoilState(dataAtom);
+
+  useEffect(()=>{
+    const fetchData = async()=>{
+      try{
+        const response = await fetch("https://sum-server.100xdevs.com/notifications");
+        const res = await response.json();
+        setDataCount(res);
+      }catch(err){console.log(err)}
+    }
+    fetchData();
+  }, [totalServicesCount])
+
+//  useEffect(()=>{
+//   axios.get("https://sum-server.100xdevs.com/notifications")
+//   .then((res)=>{
+//     setDataCount(res.data);
+//     console.log(`Axios.get: ${res.data}`)
+//   })
+//  }, [msgCount, totalServicesCount])
+  
+  console.log(`DETAILS: ${dataCount.jobs}`)
+
+  // const serviceCount = useEffect
+
+  return (
     <div>
       <button>Home</button>
-      <button>My Network ({networkCount>=100? "99+":networkCount})</button>
+      <button>My Network ({dataCount.network})</button>
       <button>Jobs ({jobsCount})</button>
       <button>Messaging ({msgCount})</button>
       <button>Notifications ({notificationsCount})</button>
-      <button onClick={()=>{setMsgCount(msgCount=>msgCount+1)}}>Me</button>
-      {console.log(`${msgCount}`)}
-
-      <button>Total ({totalServices})</button>
+      <button onClick={()=>{setMsgCount(msgCount=>msgCount+1)}}>Me ({totalServicesCount})</button>
+      
     </div>
-  )
+  );
 }
 
 
