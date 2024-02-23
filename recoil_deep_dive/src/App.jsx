@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 
 import './App.css'
 import { RecoilRoot, useRecoilValue, useSetRecoilState } from 'recoil'
-import { countAtom } from './atoms'
+import { countAtom, countSelector } from './atoms'
 
 export default function App(){
   return(
@@ -25,13 +25,14 @@ const Count = ()=>{
 
 const CountRender = ()=>{
   const count = useRecoilValue(countAtom);
+  const selectCount = useRecoilValue(countSelector);
   const EvenOdd = useMemo(()=>{
     return count%2==0?'Even':'Odd'
   }, [count])
   return(
     <div>
       <b>Counter Value is: {count}</b>  
-      <b> 👉🏽{EvenOdd}</b>
+      <b> 👉🏽 Used UseMemo: {EvenOdd} &nbsp;|&nbsp; Used Selector: {selectCount}</b>
     </div>
   )
 }
