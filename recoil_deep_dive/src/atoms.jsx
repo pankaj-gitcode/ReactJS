@@ -12,3 +12,13 @@ export const countSelector = selector({
         return selectCount%2==0?'EVEN':'ODD'
     }
 })
+
+export const dataAtom = atom({
+   key: 'dataAtom',
+   default: {
+    network: 100,
+    jobs: 101,
+    messaging: 102,
+    notifications: 103
+   } 
+})
