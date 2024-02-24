@@ -1,11 +1,7 @@
-import { atom } from "recoil";
+import { atomFamily } from "recoil";
+import { todo } from "./Todo";
 
-export const todoAtom = atom({
-    key: 'todoAtom',
-    default: {
-        id:1,
-        title: 'go to gym',
-        description: 'Full body workout',
-        completed: 'false'
-    }
+export const todoFamily = atomFamily({
+    key: 'todoFamily',
+    default: id=>todo.find(elem=>elem.id==id)
 })
