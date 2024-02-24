@@ -1,78 +1,58 @@
-import React, { useEffect, useMemo } from 'react'
-
-import './App.css'
+import React, { useEffect } from 'react'
 import { RecoilRoot, useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { countAtom, countSelector, dataAtom } from './atoms'
-
+import { fetchDataAtom, fetchDataSelector, jobsAtom, messagingAtom, networkAtom, notificationsAtom, serviceSelector } from './atoms'
+import axios from 'axios'
 export default function App(){
-  return(
+  return (
     <div>
-    <RecoilRoot>
-      <Count/>
-    </RecoilRoot>
+      <RecoilRoot>
+        <MainApp />
+      </RecoilRoot>
     </div>
   )
 }
-//Component-1: Count
-const Count = ()=>{
-  return(
-    <div>
-      <CountRender />
-      <Buttons />
-      {console.log("wont re-render")}
-    </div> 
-  )
-}
 
-//Component-2: CountRender
-const CountRender = ()=>{
-  const count = useRecoilValue(countAtom);
-  const selectCount = useRecoilValue(countSelector);
+const MainApp = ()=>{
+  const networkCount = useRecoilValue(networkAtom);
+  const jobsCount = useRecoilValue(jobsAtom);
+  const msgCount = useRecoilValue(messagingAtom);
+  const notificationsCount = useRecoilValue(notificationsAtom);
+  const allServices = useRecoilValue(serviceSelector);
+
+  const setMsgCount =  useSetRecoilState(messagingAtom);
+
+  const [datas, setDatas] = useRecoilState(fetchDataAtom);
+  const fetchData =  useRecoilValue(fetchDataSelector);
   
-  const [datas, setDatas] = useRecoilState(dataAtom);
+
+  // useEffect(()=>{
+  //   const fetchData = async()=>{
+  //     const response = await fetch("https://sum-server.100xdevs.com/notifications");
+  //     const res = await response.json();
+  //     setDatas(res);
+  //   }
+  //   fetchData();
+  // }, [msgCount])
 
   useEffect(()=>{
-    const fetchData = async()=>{
-      try{
-        const response = await fetch("https://sum-server.100xdevs.com/notifications");
-        const res = await response.json();
-        setDatas(res);
-      }
-      catch(err){console.log(`ERROR:=> ${err}`)}
-    }
-    fetchData();
-  }, [count])
-
-  const EvenOdd = useMemo(()=>{
-    return count%2==0?'Even':'Odd'
-  }, [count])
-  console.log("it'll re-render => Comp.:CountRender")
-  return(
-    <div>
-      <b>Counter Value is: {count}</b>  
-      <b> 👉🏽 Used UseMemo: {EvenOdd} &nbsp;|&nbsp; Used Selector: {selectCount}</b>
-
-      <ul> LinkedIn Services:
-        <li>Network: {datas.network}</li>
-        <li>Jobs: {datas.jobs}</li>
-        <li>Messaging: {datas.messaging}</li>
-        <li>Notifications: {datas.notifications}</li>
-      </ul>
-      {console.log(`all ${datas.network}`)}
-    </div>
-  )
-}
-
-//component-3: Buttons
-const Buttons = ()=>{
-  const count = useRecoilValue(countAtom);
-  const setCounter = useSetRecoilState(countAtom);
+    axios.get("https://sum-server.100xdevs.com/notifications")
+    .then((res)=>{
+      setDatas(res.data)
+    })
+    .catch(err=>console.log(`ERROR: ${err}`))
+  }, [msgCount])
+  
 
   return(
     <div>
-      <button onClick={()=>setCounter(coun=>coun+1)}>Increase</button>
-      <button onClick={()=>setCounter(coun=>coun-1)}>Decrease</button>
-      {console.log("It'll Re-render=>BUTTON Comp.")}
+      <button>Home</button>
+      <button>Networks ({datas.network>=100?"99+":datas.network})</button>
+      <button>Jobs ({datas.jobs})</button>
+      <button>Messaging ({datas.messaging})</button>
+      <button>Notifications ({datas.notifications})</button>
+
+      <button onClick={()=>{setMsgCount(count=>count+1)}}>Me ({allServices})</button>
+      <button onClick={()=>{setMsgCount(count=>count+1)}}>Me ({fetchData})</button>
     </div>
   )
 }
