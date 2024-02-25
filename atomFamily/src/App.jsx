@@ -1,32 +1,34 @@
 import React from 'react'
 import './App.css'
 import { RecoilRoot, useRecoilValue } from 'recoil'
-import { todoFamily } from './Atoms'
+import { todo1Atom, todo2Atom } from './Atoms'
 
 export default function App(){
   return(
-    <div>
-      <RecoilRoot>
-        <Todo id={5}/>
-        <Todo id={1}/>
-        <Todo id={2}/>
-        <Todo id={8}/>
-        <Todo id={10}/>
-        <Todo id={3}/>
-      </RecoilRoot>
-    </div>
+    <div><RecoilRoot>
+      <TodoApp id={2}/>
+    
+    </RecoilRoot></div>
   )
 }
 
-//Todo Component
-const Todo = ({id})=>{
-  const todoItem = useRecoilValue(todoFamily(id));
+//Component: TodoApp
+
+const TodoApp = ({id})=>{
+  const todo1 = useRecoilValue(todo1Atom);
+  const todo2 = useRecoilValue(todo2Atom);
+
   return(
     <div>
       <ul>
-        <li>Id: {todoItem.id}</li>
-        <li>Title: {todoItem.title}</li>
-        <li>Description: {todoItem.description}</li>
+        <li>ID: {todo1.id}</li>
+        <li>Title: {todo1.title}</li>
+        <li>Description: {todo1.description}</li>
+      </ul>
+      <ul>
+        <li>ID: {todo2.id}</li>
+        <li>Title: {todo2.title}</li>
+        <li>Description: {todo2.description}</li>
       </ul>
     </div>
   )
