@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import { RecoilRoot, useRecoilValue } from 'recoil'
+import { RecoilRoot, useRecoilState, useRecoilStateLoadable, useRecoilValue } from 'recoil'
 import { todoAtom } from './Atoms'
 
 export default function App(){
@@ -19,8 +19,10 @@ export default function App(){
 
 //component: TodoApp
 const TodoApp = ({id})=>{
-  const todo = useRecoilValue(todoAtom(id));
-
+  const [todo, setTodo ] = useRecoilStateLoadable(todoAtom(id));
+  console.log(todo.state)
+  if(todo.state==='loading'){return <div>Loading....</div>}
+  else if(todo.state==='hasValue'){
   return(
     <div>
       <ul>
@@ -30,5 +32,5 @@ const TodoApp = ({id})=>{
         <input type="checkbox" checked={todo.completed}/>
       </ul>
     </div>
-  )
+  )}
 }
